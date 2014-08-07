@@ -25,22 +25,48 @@ def CropResizeImg(origFilePath,destFilePath,img_w,img_h):
         im = Image.open(origFilePath) # open the input file
         (width, height) = im.size        # get the size of the input image
 
-        if width > height * ratio:
-        	# crop the image on the left and right side
-                newwidth = int(height * ratio)
-                left = width / 2 - newwidth / 2
-                right = left + newwidth
-                # keep the height of the image
-                top = 0
-                bottom = height
+        #if width > height * ratio:
+        #	# crop the image on the left and right side
+        #        newwidth = int(height * ratio)
+        #        left = width / 2 - newwidth / 2
+        #        right = left + newwidth
+        #        # keep the height of the image
+        #        top = 0
+        #        bottom = height
+	#elif width < height * ratio:
+        #	# crop the image on the top and bottom
+        #        newheight = int(width * ratio)
+        #        top = height / 2 - newheight / 2
+        #        bottom = top + newheight
+        #        # keep the width of the impage
+        #        left = 0
+        #        right = width
+	
+	top = 0
+	bottom = height
+	left = 0
+	right = width
+    
+	if width > height * ratio:
+		# crop the image on the left and right side
+		newwidth = ((height * 1.) * ratio)
+		left2 =((width * 1.) / 2 - newwidth / 2)
+		left = (int) (left2 * 1)
+		right =(int) (left2 + newwidth)
+		# keep the height of the image
+		#top = 0
+		#bottom = height
 	elif width < height * ratio:
-        	# crop the image on the top and bottom
-                newheight = int(width * ratio)
-                top = height / 2 - newheight / 2
-                bottom = top + newheight
-                # keep the width of the impage
-                left = 0
-                right = width
+      	# crop the image on the top and bottom
+		newheight = ((width * 1.) / ratio)
+		top2 =((height * 1.) / 2 - newheight / 2)
+		top =(int) (top2 * 1)
+		if(top<0):top=top * -1
+		bottom = (int)(top2 + newheight)
+		# keep the width of the impage
+        	#left = 0
+        	#right = width
+
 	if width != height * ratio:
                 im = im.crop((left, top, right, bottom))
 
@@ -70,23 +96,34 @@ def CropResizeImg64(orig64,img_w,img_h):
 	im=Image.open(StringIO(base64.b64decode(orig64)))
 	(width, height) = im.size        # get the size of the input image
 	#return "w:%d h:%d"%(width,height)
-        if width > height * ratio:
-                # crop the image on the left and right side
-                newwidth = int(height * ratio)
-                left = width / 2 - newwidth / 2
-                right = left + newwidth
-                # keep the height of the image
-                top = 0
-                bottom = height
-        elif width < height * ratio:
-                # crop the image on the top and bottom
-                newheight = int(width * ratio)
-                top = height / 2 - newheight / 2
-                bottom = top + newheight
-                # keep the width of the impage
-                left = 0
-                right = width
-        if width != height * ratio:
+        
+	
+	top = 0
+	bottom = height
+	left = 0
+	right = width
+    
+	if width > height * ratio:
+		# crop the image on the left and right side
+		newwidth = ((height * 1.) * ratio)
+		left2 =((width * 1.) / 2 - newwidth / 2)
+		left = (int) (left2 * 1)
+		right =(int) (left2 + newwidth)
+		# keep the height of the image
+		#top = 0
+		#bottom = height
+	elif width < height * ratio:
+      	# crop the image on the top and bottom
+		newheight = ((width * 1.) / ratio)
+		top2 =((height * 1.) / 2 - newheight / 2)
+		top =(int) (top2 * 1)
+		if(top<0):top=top * -1
+		bottom = (int)(top2 + newheight)
+		# keep the width of the impage
+        	#left = 0
+        	#right = width 
+
+	if width != height * ratio:
                 im = im.crop((left, top, right, bottom))
 
         im = im.resize((img_w,img_h),Image.BICUBIC) #ANTIALIAS,BICUBIC,BILINEAR,NEAREST 
