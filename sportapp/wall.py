@@ -330,7 +330,7 @@ def PostOnWall(useruid,message,businessId,image64,checkinId,isNews=False,newsId=
                         mapIns['newsid']="%s"%newsId
                         if dateNews!=None: mapIns['date']=dateNews
 
-		if image64!=None:mapIns['userimages_id']="%s"%UploadImage(useruid,pictures.ResizeImg64(image64,750),"%s"%PHOTOTYPE_POST)
+		if image64!=None:mapIns['userimages_id']="%s"%UploadImage(useruid,pictures.ResizeImg64(image64,1100,90),"%s"%PHOTOTYPE_POST)
 		mapIns['user_uid']=useruid
 		mapIns['message']=message
 		if(businessId!=None):mapIns['business_idapi']=businessId
