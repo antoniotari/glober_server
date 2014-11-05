@@ -121,7 +121,7 @@ def AddIsOnline(queryAr):
 def UploadImage(userid,image64,typeImg):
 	mapInsert={}
 	mapInsert['user_uid']=userid
-	mapInsert['picture64']=ResizeImg64(urllib2.unquote(image64.decode('utf8')))
+	mapInsert['picture64']=urllib2.unquote(image64.decode('utf8')) #ResizeImg64(urllib2.unquote(image64.decode('utf8')))
 	try:
 		mapInsert['thumb64']=CropResizeImg64(urllib2.unquote(image64.decode('utf8')),THUMB_PIC_W,THUMB_PIC_H)
 	except Exception,exc:

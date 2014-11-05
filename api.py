@@ -95,6 +95,12 @@ class Api:
                 cmd="%s" % form.getvalue(KEY_CMD)
                 if cmd=='test':
                         print self.TestConnection(form)
+		elif cmd=="videaerrorlog":
+			messag=form.getvalue('error')+form.getvalue('deviceid')+form.getvalue('devicemanufacture')	
+			d=urllib2.urlopen("http://162.216.4.195:8080/Glober3/api?cmd=errorlog&error=%s&message=%s"%(urllib.quote('videa'),urllib.quote(messag))).read()
+
+			#ErrorLog.ErrorLog(form.getvalue('appname'),form.getvalue('error')+form.getvalue('deviceid')+form.getvalue('devicemanufacture'))
+			#print messag
                 elif cmd=='test1':
                         print 'test1'
                 elif cmd==CMD_SENDPICTOUSR:
@@ -140,7 +146,7 @@ class Api:
         #-----
         def TestConnection(self,form):
                 cursor=self.DB().cursor(MySQLdb.cursors.DictCursor)
-                sql="SELECT * FROM user;"
+                sql="SELECT * FROM User;"
                 try:
                         cursor.execute(sql)
                         result = self.RetJson(cursor)
@@ -151,7 +157,7 @@ class Api:
                         return json.dumps(dd)
                 except Exception ,df:
 			ErrorLog.ErrorLog("%s"%df,"test_python")
-                        return "exception"
+                        return "exception %s"%df
                 finally:
                         cursor.close()
 
