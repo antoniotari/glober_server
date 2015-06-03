@@ -130,6 +130,8 @@ class Api:
 			print "%s"%QueryS("UPDATE ChatLog SET visible=0 where FromUser='%s' OR ToUSer='%s'"%(form.getvalue('userid'),form.getvalue('userid')))
 		elif cmd=='setpurchase':
 			print "%s"%QueryS("INSERT INTO purchase (itunesid,user_uid)VALUES('%s','%s')"%(form.getvalue('itunesid'),form.getvalue('userid')))
+		elif cmd=='deleteuser':
+			print self.deleteUser(form)
 		elif cmd=="getpurchase":
                         if existsS('purchase','user_uid',form.getvalue('userid')):
                                 print "{\"value\":%s}"%json.dumps(SelectS("SELECT * FROM purchase WHERE user_uid='%s' order by datepurchased desc"%form.getvalue('userid'))[0])
@@ -160,6 +162,26 @@ class Api:
                         return "exception %s"%df
                 finally:
                         cursor.close()
+
+	def deleteUser(self,form):
+		responseJ={}
+                responseJ[KEY_CMD]="%s" % form.getvalue(KEY_CMD)
+                responseJ["unreadchats"]=0
+		userUid=form.getvalue("useruid")
+                cursor=self.DB().cursor(MySQLdb.cursors.DictCursor)
+		sql="UPDATE User SET Active=0 WHERE UserID=%s;"%(userUid)
+
+                try:
+                        cursor.execute(sql)
+                        db.commit()
+                        responseJ[KEY_ESIT]="true"
+                except:
+                        db.rollback()
+                        responseJ[KEY_ESIT]="false"
+                finally:
+                        cursor.close()
+
+                return json.dumps(responseJ)
 
 	#--------------------------------------------------------------------
         #-----  
